@@ -97,11 +97,6 @@ static int try_to_freeze_tasks(bool sig_only)
 	elapsed_csecs = elapsed_csecs64;
 
 	if (todo) {
-		/* This does not unfreeze processes that are already frozen
-		 * (we have slightly ugly calling convention in that respect,
-		 * and caller must call thaw_processes() if something fails),
-		 * but it cleans up leftover PF_FREEZE requests.
-		 */
 		if(wakeup) {
 			printk("\n");
 			printk(KERN_ERR "Freezing of %s aborted\n",
@@ -114,7 +109,6 @@ static int try_to_freeze_tasks(bool sig_only)
 			       elapsed_csecs / 100, elapsed_csecs % 100,
 			       todo - wq_busy, wq_busy);
 		}
-		thaw_workqueues();
 
 		if (!wakeup) {
 			read_lock(&tasklist_lock);
@@ -122,7 +116,6 @@ static int try_to_freeze_tasks(bool sig_only)
 				if (p != current && !freezer_should_skip(p)
 				    && freezing(p) && !frozen(p))
 					sched_show_task(p);
-				cancel_freezing(p);
 			} while_each_thread(g, p);
 			read_unlock(&tasklist_lock);
 		}
@@ -136,6 +129,8 @@ static int try_to_freeze_tasks(bool sig_only)
 
 /**
  * freeze_processes - Signal user space processes to enter the refrigerator.
+ *
+ * On success, returns 0.  On failure, -errno and system is fully thawed.
  */
 int freeze_processes(void)
 {
@@ -150,11 +145,15 @@ int freeze_processes(void)
 	printk("\n");
 	BUG_ON(in_atomic());
 
+	if (error)
+		thaw_processes();
 	return error;
 }
 
 /**
  * freeze_kernel_threads - Make freezable kernel threads go to the refrigerator.
+ *
+ * On success, returns 0.  On failure, -errno and system is fully thawed.
  */
 int freeze_kernel_threads(void)
 {
@@ -172,6 +171,8 @@ int freeze_kernel_threads(void)
 	printk("\n");
 	BUG_ON(in_atomic());
 
+	if (error)
+		thaw_processes();
 	return error;
 }
 
@@ -197,4 +198,3 @@ void thaw_processes(void)
 	schedule();
 	printk("done.\n");
 }
-
