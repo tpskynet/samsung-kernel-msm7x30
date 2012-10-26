@@ -161,7 +161,7 @@ static void freezer_destroy(struct cgroup_subsys *ss,
 static bool is_task_frozen_enough(struct task_struct *task)
 {
 	return frozen(task) ||
-		(task_is_stopped_or_traced(task) && freezing(task));
+		(freezing(task));
 }
 
 /*
