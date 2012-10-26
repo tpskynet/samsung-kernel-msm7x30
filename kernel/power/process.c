@@ -61,8 +61,7 @@ static int try_to_freeze_tasks(bool user_only)
 			 * try_to_stop() after schedule() in ptrace/signal
 			 * stop sees TIF_FREEZE.
 			 */
-			if (!task_is_stopped_or_traced(p) &&
-			    !freezer_should_skip(p))
+			if (!freezer_should_skip(p))
 				todo++;
 		} while_each_thread(g, p);
 		read_unlock(&tasklist_lock);
