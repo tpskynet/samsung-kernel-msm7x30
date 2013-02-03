@@ -1633,6 +1633,35 @@ config MSM_CPU_FREQ_MIN
 	depends on MSM_CPU_FREQ_SET_MIN_MAX
 	default 245760
 
+choice
+	prompt "CPU Frequency Voltages"
+	depends on ARCH_MSM7X30
+	default MSM_CPU_FREQ_DEFAULT_V
+
+config MSM_CPU_FREQ_DEFAULT_V
+	bool "Default CPU frequency voltages"
+	help
+	  Enabling this option allow to use default CPU frequency voltages.
+
+config MSM_CPU_FREQ_NORMAL_UV
+	bool "Normally undervolted CPU frequency voltages"
+	help
+	  Enabling this option allow to use normally undervolted CPU frequency voltages.
+
+config MSM_CPU_FREQ_EXTREME_UV
+	bool "Extremely undervolted CPU frequency voltages"
+	help
+	  Enabling this option allow to use extremely undervolted CPU frequency voltages.
+
+endchoice
+
+config MSM_CPU_FREQ_OVERCLOCKING
+	bool "Enable support for CPU overclocking"
+	depends on ARCH_MSM7X30
+	default y
+	help
+	  Enabling this option allow to use all overclock frequencies.
+
 endif # CPU_FREQ_MSM
 
 config MSM_AVS_HW
