@@ -672,6 +672,12 @@ config PHANTOM_KP_FILTER
 	  Allow to filter and prevent the possbile phantom key presses caused
 	  by radio hardware interference
 
+config BLX
+	bool "Support for Battery Life eXtender"
+	default y
+	help
+	  Say Y here to enable Battery Life eXtender
+
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"
