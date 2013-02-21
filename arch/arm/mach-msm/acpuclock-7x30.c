@@ -54,7 +54,7 @@
 #define MAX_AXI_KHZ 192000
 
 extern int charging_boot;
-#define LPM_LOW_CPU_CLK 245760
+#define LPM_LOW_CPU_CLK 1401600
 
 struct clock_state {
 	struct clkctl_acpu_speed	*current_speed;
