@@ -373,7 +373,11 @@ static void mmc_wait_for_req_done(struct mmc_host *host,
 	struct mmc_command *cmd;
 
 	while (1) {
+#ifdef CONFIG_SCHED_BFS
+		wait_for_completion(&mrq->completion);
+#else
 		wait_for_completion_io(&mrq->completion);
+#endif
 
 		cmd = mrq->cmd;
 		if (!cmd->error || !cmd->retries ||
