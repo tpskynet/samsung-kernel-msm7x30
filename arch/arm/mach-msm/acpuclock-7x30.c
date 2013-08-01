@@ -127,7 +127,7 @@ static struct clk *acpuclk_sources[MAX_SOURCE];
  */
 static struct clkctl_acpu_speed acpu_freq_tbl[] = {
 	{ 0, 24576,  LPXO, 0, 0,  30720000,  900, VDD_RAW(900) },
-	{ 0, 61440,  PLL_3,    5, 11, 61440000,  900, VDD_RAW(900) },
+	{ 1, 61440,  PLL_3,    5, 11, 61440000,  900, VDD_RAW(900) },
 	{ 1, 122880, PLL_3,    5, 5,  61440000,  900, VDD_RAW(900) },
 	{ 0, 184320, PLL_3,    5, 4,  61440000,  900, VDD_RAW(900) },
 	{ 0, MAX_AXI_KHZ, AXI, 1, 0, 61440000, 900, VDD_RAW(900) },
