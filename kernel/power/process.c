@@ -159,10 +159,6 @@ int freeze_kernel_threads(void)
 {
 	int error;
 
-	error = suspend_sys_sync_wait();
-	if (error)
-		goto Exit;
-
 	printk("Freezing remaining freezable tasks ... ");
 	error = try_to_freeze_tasks(false);
 	if (!error)
