@@ -257,7 +257,7 @@ void mmc_wait_for_req(struct mmc_host *host, struct mmc_request *mrq)
 	while (1) {
 		struct mmc_command *cmd;
 
-		wait_for_completion_io(&complete);
+		wait_for_completion(&complete);
 
 		cmd = mrq->cmd;
 		if (!cmd->error || !cmd->retries)
