@@ -45,6 +45,11 @@
 
 #include <linux/swap.h>
 
+#ifdef CONFIG_ZSWAP
+#include <linux/fs.h>
+#include <linux/swap.h>
+#endif
+
 #ifdef CONFIG_ZRAM_FOR_ANDROID
 #include <linux/fs.h>
 
@@ -249,8 +254,8 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int other_file;
 	unsigned long nr_to_scan = sc->nr_to_scan;
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-	other_file -= total_swapcache_pages;
+#if defined(CONFIG_ZRAM_FOR_ANDROID) || defined(CONFIG_ZSWAP)
+	other_file -= total_swapcache_pages();
 #endif
 
 	if (nr_to_scan > 0) {
