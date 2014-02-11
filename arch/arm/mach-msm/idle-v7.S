@@ -97,6 +97,15 @@ ENTRY(msm_pm_collapse)
 	mrc     p15, 0, ip, c13, c0, 1 /* context ID */
 	stmia   r0!, {r1-r9, ip}
 
+#ifdef CONFIG_MSM_CPU_AVS
+	mrc     p15, 7, r1, c15, c1, 7 /* AVSCSR is the Adaptive Voltage Scaling
+	                                * Control and Status Register */
+	mrc     p15, 7, r2, c15, c0, 6 /* AVSDSCR is the Adaptive Voltage
+	                                * Scaling Delay Synthesizer Control
+									* Register */
+	stmia   r0!, {r1-r3}
+#endif
+
 #if defined(CONFIG_MSM_JTAG) || defined(CONFIG_MSM_JTAG_MM)
 	bl      msm_jtag_save_state
 #endif
@@ -210,6 +219,11 @@ ENTRY(msm_pm_collapse_exit)
 	add	r1, r1, r2
 #endif
 
+#ifdef CONFIG_MSM_CPU_AVS
+	ldmdb   r1!, {r2-r4}
+	mcr     p15, 7, r3, c15, c0, 6 /* AVSDSCR */
+	mcr     p15, 7, r2, c15, c1, 7 /* AVSCSR */
+#endif
 	ldmdb   r1!, {r2-r11}
 	mcr     p15, 0, r4, c3, c0, 0 /* dacr */
 	mcr     p15, 0, r3, c2, c0, 0 /* TTBR0 */
