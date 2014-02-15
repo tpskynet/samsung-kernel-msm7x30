@@ -36,7 +36,6 @@ obj-$(CONFIG_ZRAM)		+= zram/
 obj-$(CONFIG_SNAPPY_COMPRESS)	+= snappy/
 obj-$(CONFIG_SNAPPY_DECOMPRESS)	+= snappy/
 obj-$(CONFIG_QCACHE)		+= qcache/
-obj-$(CONFIG_ZSMALLOC)		+= zsmalloc/
 obj-$(CONFIG_WLAGS49_H2)	+= wlags49_h2/
 obj-$(CONFIG_WLAGS49_H25)	+= wlags49_h25/
 obj-$(CONFIG_FB_SM7XX)		+= sm7xx/
