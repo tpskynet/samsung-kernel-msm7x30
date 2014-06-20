@@ -1664,6 +1664,33 @@ config MSM_CPU_FREQ_OVERCLOCKING
 
 endif # CPU_FREQ_MSM
 
+choice
+	prompt "Available Memory"
+	depends on ARCH_MSM7X30
+	default MSM_MEMORY_DEFAULT
+
+config MSM_MEMORY_DEFAULT
+	bool "Enable stock amount of free RAM"
+	help
+	  Enabling this option allow to have stock amount of free ram.
+
+config MSM_MEMORY_HIGH
+	bool "Enable high amount of free RAM"
+	help
+	  Enabling this option allow to have high amount of free ram.
+
+config MSM_MEMORY_VERY_HIGH
+	bool "Enable very high amount of free RAM"
+	help
+	  Enabling this option allow to have very high amount of free ram.
+
+config MSM_MEMORY_EXTRA_HIGH
+	bool "Enable extra high amount of free RAM"
+	help
+	  Enabling this option allow to have extra high amount of free ram.
+
+endchoice
+
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
 	default n

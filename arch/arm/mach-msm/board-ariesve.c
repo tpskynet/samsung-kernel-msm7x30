@@ -167,7 +167,7 @@ EXPORT_SYMBOL(switch_dev);
 static struct platform_device ion_dev;
 #define MSM_ION_AUDIO_SIZE	MSM_PMEM_AUDIO_SIZE
 #define MSM_ION_SF_SIZE		MSM_PMEM_SF_SIZE
-#define MSM_ION_MM_SIZE		0x1C80000
+#define MSM_ION_MM_SIZE		0x1C80000        //    29.884.416 Bytes = 28,5 MB
 
 #define MSM_ION_MM_HEAP_BASE	0x0
 #define MSM_ION_MM_HEAP_LIMIT	0x20000000
