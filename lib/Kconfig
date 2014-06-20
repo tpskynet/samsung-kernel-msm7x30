@@ -400,4 +400,10 @@ config QMI_ENCDEC
 	  The kernel drivers receive the QMI message over a transport
 	  and then decode it into a C structure.
 
+config SNAPPY
+       tristate "Snappy compressor"
+       help
+          Add the snappy compressor. This is a reasonable compressor that
+	  compresses and decompresses extremly fast.
+
 endmenu
