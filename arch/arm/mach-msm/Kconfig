@@ -1691,6 +1691,12 @@ config MSM_MEMORY_EXTRA_HIGH
 
 endchoice
 
+config MSM_SLEEPER
+	bool "Limit max frequency while screen is off"
+	default y
+	help
+	  Limit max frequency while screen is off
+
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
 	default n
