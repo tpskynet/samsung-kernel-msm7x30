@@ -155,19 +155,22 @@ EXPORT_SYMBOL(switch_dev);
 #ifdef CONFIG_MSM_MEMORY_HIGH               // 380 MB of free RAM
 #define MSM_PMEM_SF_SIZE          0x1200000 //    18.874.368 Bytes =  18 MB
 #define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
+#define PMEM_KERNEL_EBI0_SIZE     0x0600000 //     6.291.456 Bytes =   6 MB
 #elif defined(CONFIG_MSM_MEMORY_VERY_HIGH)  // 390 MB of free RAM
 #define MSM_PMEM_SF_SIZE          0x0800000 //     8.388.608 Bytes =   8 MB
 #define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
-#elif defined(CONFIG_MSM_MEMORY_EXTRA_HIGH) // 406 MB of free RAM
+#define PMEM_KERNEL_EBI0_SIZE     0x0600000 //     6.291.456 Bytes =   6 MB
+#elif defined(CONFIG_MSM_MEMORY_EXTRA_HIGH) // 398 MB of free RAM
 #define MSM_PMEM_SF_SIZE          0x0800000 //     8.388.608 Bytes =   8 MB
-#define MSM_PMEM_ADSP_SIZE        0x0A00000 //    10.485.760 Bytes =  10 MB
+#define MSM_PMEM_ADSP_SIZE        0x1400000 //    20.971.520 Bytes =  20 MB
+#define PMEM_KERNEL_EBI0_SIZE     0x0300000 //     3.145.730 Bytes =   3 MB
 #else                                       // 370 MB of free RAM
 #define MSM_PMEM_SF_SIZE          0x1C00000 //    29.360.128 Bytes =  28 MB
 #define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
+#define PMEM_KERNEL_EBI0_SIZE     0x0600000 //     6.291.456 Bytes =   6 MB
 #endif
 
 #define MSM_FLUID_PMEM_ADSP_SIZE  0x2800000 //    41.943.040 Bytes =  40 MB
-#define PMEM_KERNEL_EBI0_SIZE     0x0600000 //     6.291.456 Bytes =   6 MB
 #define MSM_PMEM_AUDIO_SIZE       0x0200000 //     2.097.152 Bytes =   2 MB
 
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
