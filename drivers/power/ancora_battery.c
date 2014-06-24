@@ -538,7 +538,7 @@ static void msm_batt_delay_init(struct work_struct *work)
 		return rc;
 	}
 
-	pr_info("%s: Charger/Battery = 0x%08x/0x%08x (RPC version)\n",
+	pr_debug("%s: Charger/Battery = 0x%08x/0x%08x (RPC version)\n",
 		__func__, msm_batt_info.chg_api_version,
 		msm_batt_info.batt_api_version);
 
@@ -924,7 +924,7 @@ static void fg_set_alert_ext(unsigned long arg)
 
 	if (msm_batt_info.charging_source == NO_CHG)
 	{
-		pr_info("[BATT] %s: low battery, power off...\n", __func__);
+		pr_debug("[BATT] %s: low battery, power off...\n", __func__);
 		is_alert = 1;
 		wake_lock_timeout(&vbus_wake_lock, 30 * TIME_UNIT_SECOND);
 	}
@@ -973,7 +973,7 @@ static void msm_batt_chg_en(chg_enable_type enable)
 		// Set charging current (ICHG; mA)
 		if (msm_batt_info.charging_source & AC_CHG)
 		{
-			pr_info("[BATT] %s: Start charging! (charging_source = AC, wireless = %d)\n", __func__, msm_batt_info.batt_wireless);
+			pr_debug("[BATT] %s: Start charging! (charging_source = AC, wireless = %d)\n", __func__, msm_batt_info.batt_wireless);
 			hsusb_chg_connected_ext(USB_CHG_TYPE__WALLCHARGER);
 #ifdef CONFIG_WIRELESS_CHARGING
 			if (msm_batt_info.batt_wireless)
@@ -989,7 +989,7 @@ static void msm_batt_chg_en(chg_enable_type enable)
 		}
 		else // USB_CHG
 		{
-			pr_info("[BATT] %s: Start charging! (charging_source = USB)\n", __func__);
+			pr_debug("[BATT] %s: Start charging! (charging_source = USB)\n", __func__);
 			hsusb_chg_connected_ext(USB_CHG_TYPE__SDP);
 
 			if (board_hw_revision >= 0x06)
@@ -1078,7 +1078,7 @@ static void msm_batt_chg_en(chg_enable_type enable)
 
 		msm_batt_average_chg_current(-1);	// Initialize all current data sampling
 
-		pr_info("[BATT] %s: Stop charging! (charging_source = 0x%x, full_check = %d)\n",
+		pr_debug("[BATT] %s: Stop charging! (charging_source = 0x%x, full_check = %d)\n",
 			__func__, msm_batt_info.charging_source, msm_batt_info.batt_full_check);
 	}
 }
@@ -1179,7 +1179,7 @@ static int msm_batt_check_full_charging(int chg_current_adc)
 	// check charging absolute time
 	if (msm_batt_is_over_abs_time())
 	{
-		pr_info("[BATT] %s: Fully charged, over abs time! (recharging=%d)\n", __func__, msm_batt_info.batt_recharging);
+		pr_debug("[BATT] %s: Fully charged, over abs time! (recharging=%d)\n", __func__, msm_batt_info.batt_recharging);
 		msm_batt_info.batt_full_check = 1;
 		msm_batt_info.batt_recharging = 0;
 		msm_batt_info.batt_status = POWER_SUPPLY_STATUS_FULL;
@@ -1199,7 +1199,7 @@ static int msm_batt_check_full_charging(int chg_current_adc)
 				if (time_after((unsigned long)jiffies, (unsigned long)(time_after_under_tsh + TOTAL_WATING_TIME)))
 				{
 					// fully charged !
-					pr_info("[BATT] %s: Fully charged, cut off charging current! (voltage=%d, ICHG=%d)\n",
+					pr_debug("[BATT] %s: Fully charged, cut off charging current! (voltage=%d, ICHG=%d)\n",
 						__func__, msm_batt_info.battery_voltage, chg_current_adc);
 					msm_batt_info.batt_full_check = 1;
 					msm_batt_info.batt_recharging = 0;
@@ -1227,7 +1227,7 @@ static int msm_batt_check_full_charging(int chg_current_adc)
 			if (time_after((unsigned long)jiffies, (unsigned long)(time_after_under_blx_limit + TOTAL_WATING_TIME)))
 			{
 				// Battery Life Extender charging limit reached !
-				pr_info("[BATT] %s: Battery Life eXtender - Charging limit reached, cut off charging current! (capacity=%d, voltage=%d, ICHG=%d)\n",
+				pr_debug("[BATT] %s: Battery Life eXtender - Charging limit reached, cut off charging current! (capacity=%d, voltage=%d, ICHG=%d)\n",
 					__func__, msm_batt_info.batt_capacity, msm_batt_info.battery_voltage, chg_current_adc);
 				msm_batt_info.batt_full_check = 1;
 				msm_batt_info.batt_recharging = 0;
@@ -1257,7 +1257,7 @@ static int msm_batt_check_recharging(void)
 	if (msm_batt_blx_charging_limit_reached())
 	{
 		// Battery Life Extender charging limit reached !
-		pr_info("[BATT] %s: Battery Life eXtender - Charging limit reached, no need to start recharging! (capacity=%d, voltage=%d)\n",
+		pr_debug("[BATT] %s: Battery Life eXtender - Charging limit reached, no need to start recharging! (capacity=%d, voltage=%d)\n",
 			__func__, msm_batt_info.batt_capacity, msm_batt_info.battery_voltage);
 		return 0;
 	}
@@ -1280,7 +1280,7 @@ static int msm_batt_check_recharging(void)
 
 		if (time_after((unsigned long)jiffies, (unsigned long)(time_after_vol1 + TOTAL_WATING_TIME)))
 		{
-			pr_info("[BATT] %s: Recharging ! (voltage1 = %d)\n", __func__, msm_batt_info.battery_voltage);
+			pr_debug("[BATT] %s: Recharging ! (voltage1 = %d)\n", __func__, msm_batt_info.battery_voltage);
 			msm_batt_info.batt_recharging = 1;
 			msm_batt_chg_en(START_CHARGING);
 			return 1;
@@ -1297,7 +1297,7 @@ static int msm_batt_check_recharging(void)
 
 		if (time_after((unsigned long)jiffies, (unsigned long)(time_after_vol2 + TOTAL_WATING_TIME)))
 		{
-			pr_info("[BATT] %s: Recharging ! (voltage2 = %d)\n", __func__, msm_batt_info.battery_voltage);
+			pr_debug("[BATT] %s: Recharging ! (voltage2 = %d)\n", __func__, msm_batt_info.battery_voltage);
 			msm_batt_info.batt_recharging = 1;
 			msm_batt_chg_en(START_CHARGING);
 			return 1;
@@ -1313,7 +1313,7 @@ static int msm_batt_check_level(int battery_level)
 {
 	if (msm_batt_info.batt_capacity != battery_level)
 	{
-		pr_info("[BATT] %s: Battery level changed ! (%d -> %d)\n", __func__, msm_batt_info.batt_capacity, battery_level);
+		pr_debug("[BATT] %s: Battery level changed ! (%d -> %d)\n", __func__, msm_batt_info.batt_capacity, battery_level);
 		msm_batt_info.batt_capacity = battery_level;
 		return 1;
 	}
@@ -1503,7 +1503,7 @@ static int msm_batt_control_temperature(int temp_adc)
 	{
 		if (msm_batt_info.charging_source == NO_CHG)	// not charging
 		{
-			pr_info("[BATT] %s: Health changed by temperature! (ADC = %d, %s-> %s)\n",
+			pr_debug("[BATT] %s: Health changed by temperature! (ADC = %d, %s-> %s)\n",
 				__func__, temp_adc, health_text[prev_health], health_text[new_health]);
 				msm_batt_info.batt_status = POWER_SUPPLY_STATUS_DISCHARGING;
 		}
@@ -1511,14 +1511,14 @@ static int msm_batt_control_temperature(int temp_adc)
 		{
 			if (new_health != POWER_SUPPLY_HEALTH_GOOD)	// block!
 			{
-				pr_info("[BATT] %s: Block charging! (ADC = %d, %s-> %s)\n",
+				pr_debug("[BATT] %s: Block charging! (ADC = %d, %s-> %s)\n",
 					__func__, temp_adc, health_text[prev_health], health_text[new_health]);
 				msm_batt_info.batt_status = POWER_SUPPLY_STATUS_NOT_CHARGING;
 				msm_batt_chg_en(STOP_CHARGING);
 			}
 			else										// recover!
 			{
-				pr_info("[BATT] %s: Recover charging! (ADC = %d, %s-> %s)\n",
+				pr_debug("[BATT] %s: Recover charging! (ADC = %d, %s-> %s)\n",
 					__func__, temp_adc, health_text[prev_health], health_text[new_health]);
 				msm_batt_info.batt_status = POWER_SUPPLY_STATUS_CHARGING;
 				msm_batt_chg_en(START_CHARGING);
@@ -1834,10 +1834,10 @@ static void msm_batt_update_psy_status(void)
 		if(!power_down)
 		{
 #ifdef BATTERY_CHECK_OVP
-			pr_info("[BATT] %s: chg_type=%d, bat_status=%d, bat_adc=%d, chg_current=%d, bat_full=%d, bat_recharging=%d bat_ovp=%d,%d\n",
+			pr_debug("[BATT] %s: chg_type=%d, bat_status=%d, bat_adc=%d, chg_current=%d, bat_full=%d, bat_recharging=%d bat_ovp=%d,%d\n",
 				__func__, msm_batt_info.charger_type, msm_batt_info.batt_health, msm_batt_info.battery_temp_adc, msm_batt_info.chg_current_adc, msm_batt_info.batt_full_check, msm_batt_info.batt_recharging, msm_batt_info.batt_ovp, msm_batt_info.batt_ovp_chg_block);
 #else
-			pr_info("[BATT] %s: charger_type=%d, battery_status=%d, battery_temp_adc=%d, chg_current=%d, battery_full=%d, battery_recharging=%d\n",
+			pr_debug("[BATT] %s: charger_type=%d, battery_status=%d, battery_temp_adc=%d, chg_current=%d, battery_full=%d, battery_recharging=%d\n",
 				__func__, msm_batt_info.charger_type, msm_batt_info.batt_health, msm_batt_info.battery_temp_adc, msm_batt_info.chg_current_adc, msm_batt_info.batt_full_check, msm_batt_info.batt_recharging);
 #endif
 		}
@@ -1847,7 +1847,7 @@ static void msm_batt_update_psy_status(void)
 	{
 		if(!power_down)
 		{
-			pr_info("[BATT] %s: power_supply_changed !\n", __func__);
+			pr_debug("[BATT] %s: power_supply_changed !\n", __func__);
 		}
 		power_supply_changed(&msm_psy_batt);
 	}
@@ -2316,7 +2316,7 @@ static void msm_batt_cable_status_update(void)
 #endif
 
 	msm_batt_info.charger_type = charger_type;
-	pr_info("[BATT] %s: charger_type = %d (0:none, 1:TA, 2:USB) \n", __func__, charger_type);
+	pr_debug("[BATT] %s: charger_type = %d (0:none, 1:TA, 2:USB) \n", __func__, charger_type);
 
 	msm_batt_info.batt_full_check = 0;
 	msm_batt_info.batt_recharging = 0;
@@ -2338,7 +2338,7 @@ static void msm_batt_cable_status_update(void)
 
 		if (msm_batt_info.batt_health != POWER_SUPPLY_HEALTH_GOOD)
 		{
-			pr_info("[BATT] %s: Battery health is %s, stop charging! \n", __func__, health_text[msm_batt_info.batt_health]);
+			pr_debug("[BATT] %s: Battery health is %s, stop charging! \n", __func__, health_text[msm_batt_info.batt_health]);
 			msm_batt_info.batt_status = POWER_SUPPLY_STATUS_NOT_CHARGING;
 			msm_batt_chg_en(STOP_CHARGING);
 		}
@@ -2358,7 +2358,7 @@ static void msm_batt_cable_status_update(void)
 		wake_lock_timeout(&vbus_wake_lock, 5 * TIME_UNIT_SECOND);
 	}
 
-	pr_info("[BATT] %s: power_supply_changed !\n", __func__);
+	pr_debug("[BATT] %s: power_supply_changed !\n", __func__);
 	power_supply_changed(&msm_psy_batt);
 
 	if (msm_batt_unhandled_interrupt)
@@ -2408,7 +2408,7 @@ static int msm_batt_cleanup(void)
 {
 	int rc = 0;
 
-	pr_info("[BATT] %s\n", __func__);
+	pr_debug("[BATT] %s\n", __func__);
 
 	del_timer_sync(&msm_batt_info.timer);
 	msm_batt_remove_attrs(msm_psy_batt.dev);
@@ -2597,7 +2597,7 @@ static irqreturn_t wc_detect_irq_handler(int irq, void *data)
 	int wc_detect = msm_batt_get_wireless_status();
 
 
-	pr_info("[BATT] %s: WC_DETECT = (%d)\n", __func__, wc_detect);
+	pr_debug("[BATT] %s: WC_DETECT = (%d)\n", __func__, wc_detect);
 
 	if (wc_detect == msm_batt_info.batt_wireless)	// wireless status is not changed...
 	{
@@ -2752,7 +2752,7 @@ static int check_quick_start(void)
 		if (soc_raw > limit_max || soc_raw < limit_min) {
 //			hsusb_chg_vbus_draw_ext(0);
 			fg_reset_soc();
-			pr_info("\n[BATT] %s: QUICK START (reset_soc)!!! \n\n", __func__);
+			pr_debug("\n[BATT] %s: QUICK START (reset_soc)!!! \n\n", __func__);
 		}
 	}
 
@@ -3102,7 +3102,7 @@ static int __init msm_batt_init(void)
 			return rc;
 		}
 
-		pr_info("%s: Charger/Battery = 0x%08x/0x%08x (RPC version)\n",
+		pr_debug("%s: Charger/Battery = 0x%08x/0x%08x (RPC version)\n",
 			__func__, msm_batt_info.chg_api_version,
 			msm_batt_info.batt_api_version);
 	}
