@@ -153,8 +153,8 @@ EXPORT_SYMBOL(switch_dev);
 #define MSM_PMEM_SF_SIZE          0x1200000 //    18.874.368 Bytes =  18 MB
 #define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
 #elif defined(CONFIG_MSM_MEMORY_VERY_HIGH)  // +20 MB of free RAM
-#define MSM_PMEM_SF_SIZE          0x0800000 //     8.388.608 Bytes =   8 MB
-#define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
+#define MSM_PMEM_SF_SIZE          0x1200000 //    18.874.368 Bytes =  18 MB
+#define MSM_PMEM_ADSP_SIZE        0x1400000 //    20.971.520 Bytes =  20 MB
 #else                                       // Default free RAM
 #define MSM_PMEM_SF_SIZE          0x1C00000 //    29.360.128 Bytes =  28 MB
 #define MSM_PMEM_ADSP_SIZE        0x1A00000 //    27.262.976 Bytes =  26 MB
