@@ -175,12 +175,13 @@ static struct platform_device ion_dev;
 #define MSM_ION_SF_SIZE			0x1C00000	//    29.360.128 Bytes =  28 MB
 #endif
 #define MSM_ION_AUDIO_SIZE		0x0200000	//     2.097.152 Bytes =   2 MB
-#define MSM_ION_MM_SIZE			0x1C80000	//    29.884.416 Bytes =  28,5 MB
 
 #ifdef CONFIG_MSM_ION_MM_USE_CMA
+#define MSM_ION_MM_SIZE			0x3000000	//    50.331.648 Bytes =  48 MB
 #define MSM_ION_MM_HEAP_TYPE	ION_HEAP_TYPE_DMA
 #define MSM_ION_MM_SIZE_CARVING	0x0
 #else
+#define MSM_ION_MM_SIZE			0x1C80000	//    29.884.416 Bytes = 28,5 MB
 #define MSM_ION_MM_HEAP_TYPE	ION_HEAP_TYPE_CARVEOUT
 #define MSM_ION_MM_SIZE_CARVING	MSM_ION_MM_SIZE
 #endif
