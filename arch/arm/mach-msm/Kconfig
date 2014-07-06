@@ -1684,6 +1684,11 @@ config MSM_MEMORY_VERY_HIGH
 	help
 	  Enabling this option allow to have very high amount of free ram.
 
+config MSM_MEMORY_EXTRA_HIGH
+	bool "Enable extra high amount of free RAM"
+	help
+	  Enabling this option allow to have extra high amount of free ram.
+
 endchoice
 
 config MSM_AVS_HW
