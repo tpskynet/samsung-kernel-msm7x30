@@ -163,11 +163,15 @@ EXPORT_SYMBOL(switch_dev);
 static u64 msm_dmamask = DMA_BIT_MASK(32);
 #endif
 
-#define MSM_PMEM_ADSP_SIZE		0x1A00000
+#ifdef CONFIG_MSM_MEMORY_HIGH
+#define MSM_PMEM_ADSP_SIZE		0x1400000	//    20.971.520 Bytes =  20 MB
+#else
+#define MSM_PMEM_ADSP_SIZE		0x1A00000	//    27.262.976 Bytes =  26 MB
+#endif
 
 #ifdef CONFIG_ION_MSM
 static struct platform_device ion_dev;
-#ifdef CONFIG_MSM_MEMORY_HIGH				// +10 MB of free RAM
+#ifdef CONFIG_MSM_MEMORY_HIGH				// +16 MB of free RAM
 #define MSM_ION_SF_SIZE			0x1200000	//    18.874.368 Bytes =  18 MB
 #elif defined(CONFIG_MSM_MEMORY_VERY_HIGH)	// +20 MB of free RAM
 #define MSM_ION_SF_SIZE			0x0800000	//     8.388.608 Bytes =   8 MB
