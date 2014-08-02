@@ -16,7 +16,7 @@
 #define _ZRAM_DRV_H_
 
 #include <linux/spinlock.h>
-#include "../../staging/zsmalloc/zsmalloc.h"
+#include <linux/zsmalloc.h>
 
 #include "zcomp.h"
 
